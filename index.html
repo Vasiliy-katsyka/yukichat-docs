@@ -3,93 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YukiChat Developers Portal</title>
+    <title>yukibot Python Documentation</title>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Fira+Code:wght@400;500;600&display=swap');
 
         :root {
-            --bg: #0f172a;
-            --sidebar-bg: #1e293b;
-            --panel: #1e293b;
-            --text-main: #f8fafc;
-            --text-muted: #94a3b8;
-            --primary: #3b82f6;
-            --border: #334155;
-            --code-bg: #0b1120;
-            --hover: rgba(255,255,255,0.05);
-            --success: #10b981;
+            /* Beautiful Light Theme Colors */
+            --bg: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --panel: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #475569;
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --border: #e2e8f0;
+            --code-bg: #f1f5f9;
+            --code-text: #0f172a;
+            --code-keyword: #c026d3;
+            --code-string: #16a34a;
+            --code-func: #2563eb;
+            --hover: #f1f5f9;
+            --success: #059669;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+            --shadow-lg: 0 10px 15px -3px rgba(0,0,0,0.05), 0 4px 6px -2px rgba(0,0,0,0.02);
+            --radius: 12px;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Inter', sans-serif; background: var(--bg); color: var(--text-main); display: flex; line-height: 1.6; overflow-x: hidden; }
 
         /* Sidebar */
-        .sidebar { width: 300px; background: var(--sidebar-bg); border-right: 1px solid var(--border); height: 100vh; position: fixed; top: 0; left: 0; overflow-y: auto; z-index: 100; transition: transform 0.3s; display: flex; flex-direction: column; }
-        .sidebar-header { padding: 24px; font-size: 20px; font-weight: 700; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-shrink: 0; }
+        .sidebar { width: 320px; background: var(--sidebar-bg); border-right: 1px solid var(--border); height: 100vh; position: fixed; top: 0; left: 0; overflow-y: auto; z-index: 100; transition: transform 0.3s; display: flex; flex-direction: column; box-shadow: var(--shadow-sm); }
+        .sidebar-header { padding: 24px; font-size: 22px; font-weight: 700; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; flex-shrink: 0; color: var(--text-main); }
         .sidebar-header span { color: var(--primary); }
+        .sidebar-header svg { color: var(--primary); }
         
-        .top-nav { padding: 16px 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; }
-        .top-nav-link { display: flex; align-items: center; gap: 12px; padding: 10px 24px; color: var(--text-muted); text-decoration: none; font-weight: 600; transition: 0.2s; cursor: pointer; }
+        .top-nav { padding: 16px 0; border-bottom: 1px solid var(--border); margin-bottom: 16px; background: #fafafa; }
+        .top-nav-link { display: flex; align-items: center; gap: 12px; padding: 12px 24px; color: var(--text-muted); text-decoration: none; font-weight: 600; transition: 0.2s; cursor: pointer; }
         .top-nav-link:hover { color: var(--text-main); background: var(--hover); }
         .top-nav-link.active { color: var(--primary); border-right: 3px solid var(--primary); background: var(--hover); }
 
         .api-nav { flex: 1; overflow-y: auto; padding-bottom: 24px; display: none; }
         .api-nav.active { display: block; }
         .nav-group { margin-bottom: 24px; }
-        .nav-title { font-size: 12px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; padding: 0 24px 8px; letter-spacing: 0.5px; }
-        .nav-link { display: block; padding: 6px 24px; color: var(--text-main); text-decoration: none; font-size: 14px; transition: 0.2s; border-left: 3px solid transparent; }
+        .nav-title { font-size: 13px; text-transform: uppercase; color: var(--text-muted); font-weight: 700; padding: 0 24px 8px; letter-spacing: 0.5px; }
+        .nav-link { display: block; padding: 8px 24px; color: var(--text-muted); text-decoration: none; font-size: 14px; transition: 0.2s; border-left: 3px solid transparent; font-family: 'Fira Code', monospace; }
         .nav-link:hover { background: var(--hover); color: var(--primary); border-left-color: var(--primary); }
 
         /* Main Content */
-        .main-content { margin-left: 300px; padding: 40px 60px; max-width: 1100px; width: 100%; min-height: 100vh; }
+        .main-content { margin-left: 320px; padding: 40px 60px; max-width: 1200px; width: 100%; min-height: 100vh; }
         .page-section { display: none; animation: fadeIn 0.3s ease; }
         .page-section.active { display: block; }
 
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        h1 { font-size: 36px; margin-bottom: 16px; font-weight: 700; }
-        h2 { font-size: 24px; margin: 40px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); color: var(--primary); }
-        h3 { font-size: 20px; margin: 32px 0 12px; font-family: 'Fira Code', monospace; display: flex; align-items: center; gap: 10px; }
-        p { color: var(--text-muted); margin-bottom: 16px; font-size: 15px; }
+        h1 { font-size: 40px; margin-bottom: 16px; font-weight: 800; letter-spacing: -0.5px; }
+        h2 { font-size: 26px; margin: 48px 0 20px; padding-bottom: 12px; border-bottom: 2px solid var(--border); color: var(--text-main); font-weight: 700; }
+        h3 { font-size: 20px; margin: 32px 0 16px; font-family: 'Fira Code', monospace; display: flex; align-items: center; gap: 10px; color: var(--primary); }
+        p { color: var(--text-muted); margin-bottom: 20px; font-size: 16px; }
         
-        .badge { background: var(--primary); color: #fff; font-size: 12px; padding: 2px 8px; border-radius: 12px; font-family: 'Inter', sans-serif; font-weight: 600; }
+        .badge { background: var(--bg); color: var(--primary); border: 1px solid var(--primary); font-size: 12px; padding: 4px 10px; border-radius: 20px; font-family: 'Inter', sans-serif; font-weight: 600; }
 
-        code { font-family: 'Fira Code', monospace; background: var(--code-bg); color: #38bdf8; padding: 2px 6px; border-radius: 6px; font-size: 13.5px; }
-        pre { background: var(--code-bg); padding: 16px; border-radius: 12px; overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px; }
-        pre code { background: transparent; color: #e2e8f0; padding: 0; }
+        code { font-family: 'Fira Code', monospace; background: var(--code-bg); color: var(--code-text); padding: 3px 6px; border-radius: 6px; font-size: 14px; border: 1px solid var(--border); }
+        pre { background: var(--code-bg); padding: 20px; border-radius: var(--radius); overflow-x: auto; border: 1px solid var(--border); margin-bottom: 24px; font-size: 14px; line-height: 1.5; box-shadow: inset 0 2px 4px rgba(0,0,0,0.02); }
+        pre code { background: transparent; color: inherit; padding: 0; border: none; }
+        
+        /* Python Syntax Highlighting colors */
+        .kw { color: var(--code-keyword); font-weight: 600; }
+        .str { color: var(--code-string); }
+        .func { color: var(--code-func); }
 
         /* Tables & Cards */
-        .table-wrap { overflow-x: auto; margin-bottom: 24px; border-radius: 12px; border: 1px solid var(--border); background: var(--panel); }
+        .table-wrap { overflow-x: auto; margin-bottom: 24px; border-radius: var(--radius); border: 1px solid var(--border); background: var(--panel); box-shadow: var(--shadow-sm); }
         table { width: 100%; border-collapse: collapse; text-align: left; }
-        th, td { padding: 14px 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
-        th { background: rgba(0,0,0,0.2); font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
+        th, td { padding: 16px; border-bottom: 1px solid var(--border); font-size: 14px; }
+        th { background: var(--bg); font-weight: 600; color: var(--text-muted); text-transform: uppercase; font-size: 12px; letter-spacing: 0.5px; }
         tr:last-child td { border-bottom: none; }
-        td:first-child code { color: #f472b6; }
-        .req-yes { color: var(--success); font-weight: 600; font-size: 12px; }
-        .req-no { color: var(--text-muted); font-size: 12px; }
+        td:first-child code { color: var(--code-func); border: none; background: transparent; padding: 0; font-weight: 600; }
+        .req-yes { color: var(--success); font-weight: 600; font-size: 12px; background: rgba(5, 150, 105, 0.1); padding: 4px 8px; border-radius: 6px; }
+        .req-no { color: var(--text-muted); font-size: 12px; background: var(--bg); padding: 4px 8px; border-radius: 6px; }
 
-        .method-card { background: var(--panel); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 32px; box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
-        .faq-card { background: var(--panel); border: 1px solid var(--border); border-radius: 12px; padding: 20px; margin-bottom: 16px; }
-        .faq-card h3 { margin: 0 0 12px 0; font-family: 'Inter', sans-serif; color: var(--text-main); font-size: 18px; }
+        .method-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 32px; margin-bottom: 32px; box-shadow: var(--shadow-md); transition: transform 0.2s, box-shadow 0.2s; }
+        .method-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+        .method-card h3 { margin-top: 0; }
+        
+        .faq-card { background: var(--panel); border: 1px solid var(--border); border-radius: var(--radius); padding: 24px; margin-bottom: 20px; box-shadow: var(--shadow-sm); }
+        .faq-card h3 { margin: 0 0 12px 0; font-family: 'Inter', sans-serif; color: var(--text-main); font-size: 20px; font-weight: 700; }
 
         /* Scheme Diagram CSS */
-        .diagram-container { display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 40px 0; padding: 40px; background: var(--code-bg); border-radius: 16px; border: 1px solid var(--border); }
-        .d-box { background: var(--panel); border: 2px solid var(--primary); padding: 16px 24px; border-radius: 12px; text-align: center; font-weight: 600; min-width: 200px; box-shadow: 0 4px 15px rgba(0,0,0,0.3); z-index: 2; position: relative; }
+        .diagram-container { display: flex; flex-direction: column; align-items: center; gap: 20px; margin: 40px 0; padding: 40px; background: #ffffff; border-radius: var(--radius); border: 1px solid var(--border); box-shadow: inset 0 0 20px rgba(0,0,0,0.02); }
+        .d-box { background: var(--panel); border: 2px solid var(--primary); padding: 16px 24px; border-radius: var(--radius); text-align: center; font-weight: 600; min-width: 220px; box-shadow: var(--shadow-md); z-index: 2; position: relative; color: var(--text-main); }
         .d-box.db { border-color: var(--success); }
-        .d-box.external { border-color: #f472b6; border-style: dashed; }
+        .d-box.external { border-color: var(--code-keyword); border-style: dashed; background: #fafafa; }
         .d-row { display: flex; gap: 40px; width: 100%; justify-content: center; position: relative; }
-        .d-arrow-down { width: 2px; height: 30px; background: var(--border); position: relative; }
-        .d-arrow-down::after { content: ''; position: absolute; bottom: -4px; left: -4px; border-width: 5px; border-style: solid; border-color: var(--border) transparent transparent transparent; }
-        .d-arrow-up { width: 2px; height: 30px; background: var(--border); position: relative; }
-        .d-arrow-up::after { content: ''; position: absolute; top: -4px; left: -4px; border-width: 5px; border-style: solid; border-color: transparent transparent var(--border) transparent; }
-        .d-line-h { height: 2px; width: 40px; background: var(--border); align-self: center; position: relative; }
+        .d-arrow-down { width: 2px; height: 30px; background: var(--text-muted); position: relative; }
+        .d-arrow-down::after { content: ''; position: absolute; bottom: -6px; left: -5px; border-width: 6px; border-style: solid; border-color: var(--text-muted) transparent transparent transparent; }
+        .d-line-h { height: 2px; width: 40px; background: var(--text-muted); align-self: center; position: relative; }
         
         /* Mobile */
-        .menu-btn { display: none; position: fixed; top: 16px; left: 16px; background: var(--panel); border: 1px solid var(--border); color: #fff; width: 44px; height: 44px; border-radius: 12px; z-index: 200; cursor: pointer; align-items: center; justify-content: center; }
-        @media (max-width: 800px) {
+        .menu-btn { display: none; position: fixed; top: 16px; left: 16px; background: var(--primary); color: #fff; border: none; width: 44px; height: 44px; border-radius: var(--radius); z-index: 200; cursor: pointer; align-items: center; justify-content: center; box-shadow: var(--shadow-md); }
+        @media (max-width: 900px) {
             .sidebar { transform: translateX(-100%); }
-            .sidebar.open { transform: translateX(0); box-shadow: 10px 0 30px rgba(0,0,0,0.5); }
-            .main-content { margin-left: 0; padding: 80px 20px 40px; }
+            .sidebar.open { transform: translateX(0); box-shadow: 20px 0 50px rgba(0,0,0,0.1); }
+            .main-content { margin-left: 0; padding: 80px 24px 40px; }
             .menu-btn { display: flex; }
             .d-row { flex-direction: column; align-items: center; gap: 20px; }
             .d-line-h { display: none; }
@@ -98,23 +115,25 @@
 </head>
 <body>
 
-    <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">☰</button>
+    <button class="menu-btn" onclick="document.getElementById('sidebar').classList.toggle('open')">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+    </button>
 
     <div class="sidebar" id="sidebar">
         <div class="sidebar-header">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4z"></path><path d="M14 10v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10"></path><path d="M4 14h2"></path><path d="M14 14h2"></path></svg>
-            <span>YukiChat</span> Devs
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2a2 2 0 0 1 2 2v2a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h4z"></path><path d="M14 10v10a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V10"></path><path d="M4 14h2"></path><path d="M14 14h2"></path></svg>
+            <span>yukibot</span> Docs
         </div>
         
         <div class="top-nav">
             <div class="top-nav-link active" onclick="switchPage('api')" id="nav-api-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg> API Reference
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg> Python Reference
             </div>
             <div class="top-nav-link" onclick="switchPage('scheme')" id="nav-scheme-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> Architecture Scheme
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect><line x1="3" y1="9" x2="21" y2="9"></line><line x1="9" y1="21" x2="9" y2="9"></line></svg> Architecture Scheme
             </div>
             <div class="top-nav-link" onclick="switchPage('faq')" id="nav-faq-btn">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> FAQ
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path><line x1="12" y1="17" x2="12.01" y2="17"></line></svg> Usage FAQ
             </div>
         </div>
 
@@ -127,15 +146,26 @@
         
         <!-- ==================== API REFERENCE PAGE ==================== -->
         <div class="page-section active" id="page-api">
-            <h1>Bot API Reference</h1>
-            <p>Welcome to the official YukiChat Bot API documentation. The API allows you to build powerful bots using simple HTTPS requests.</p>
+            <h1>yukibot Library Reference</h1>
+            <p>Welcome to the official <code>yukibot</code> Python library documentation. This framework provides a simple, synchronous, Telebot-like wrapper around the YukiChat Bot API, fully optimized for Cloudflare D1 integration.</p>
             
-            <h2>Authentication</h2>
-            <p>All queries to the YukiChat Bot API must be served over HTTPS and need to be presented in this form:</p>
-            <pre><code>https://yukichat.yourworker.workers.dev/bot&lt;token&gt;/METHOD_NAME</code></pre>
-            <p>You can obtain your authentication token by messaging <code>@YukiFather</code> inside YukiChat.</p>
+            <div class="method-card" style="background: var(--code-bg); box-shadow: none;">
+                <h3 style="margin-top: 0; color: var(--text-main); font-family: 'Inter';">Quick Start</h3>
+                <p>Install the library via PIP and initialize your bot in just a few lines of code.</p>
+                <pre style="margin-bottom: 0;"><code><span class="kw">pip</span> install yukibot</code></pre>
+                <pre style="margin-top: 16px; margin-bottom: 0;"><code><span class="kw">from</span> yukibot <span class="kw">import</span> YukiBot
 
-            <p>Requests must be sent as <strong>POST</strong> using <code>application/json</code>.</p>
+bot = YukiBot(<span class="str">"yk_bot_YOUR_TOKEN_HERE"</span>)
+
+<span class="kw">@bot</span>.message_handler(commands=[<span class="str">'start'</span>])
+<span class="kw">def</span> <span class="func">send_welcome</span>(message):
+    bot.reply_to(message, <span class="str">"Hello! I am a YukiChat Bot built with Python."</span>)
+
+<span class="kw">if</span> __name__ == <span class="str">'__main__'</span>:
+    bot.polling()</code></pre>
+            </div>
+
+            <p>Below is the complete reference for all **37 API methods** mapped directly to Python functions inside the <code>YukiBot</code> class, along with library-exclusive helper decorators.</p>
 
             <div id="docs-container"></div>
         </div>
@@ -143,79 +173,75 @@
         <!-- ==================== SCHEME PAGE ==================== -->
         <div class="page-section" id="page-scheme">
             <h1>Architecture & Data Flow</h1>
-            <p>YukiChat is built entirely on Cloudflare's Edge network, utilizing Workers for compute and D1 (SQLite) for ultra-fast, globally distributed database storage. Below is the scheme explaining how Bots interact with the ecosystem.</p>
+            <p>YukiChat is built entirely on Cloudflare's Edge network. The <code>yukibot</code> Python library is designed to seamlessly interface with this infrastructure, offering smart D1 caching to save database read quotas automatically.</p>
             
             <div class="diagram-container">
-                <div class="d-box">📱 YukiChat Client (Browser / PWA)</div>
+                <div class="d-box">📱 YukiChat Client App</div>
                 <div class="d-arrow-down"></div>
-                <div class="d-box" style="border-color: #a855f7;">⚡ Cloudflare Worker (REST API & WebSockets)</div>
+                <div class="d-box" style="border-color: var(--primary);">⚡ Cloudflare Edge Worker (REST API)</div>
                 <div class="d-arrow-down"></div>
                 
                 <div class="d-row">
                     <div style="display: flex; flex-direction: column; align-items: center;">
                         <div class="d-box db">🗄️ Cloudflare D1 (SQLite)</div>
-                        <p style="font-size: 12px; margin-top: 8px; text-align: center;">Stores Users, Messages,<br>Tokens, & Stickers</p>
+                        <p style="font-size: 13px; margin-top: 8px; text-align: center; color: var(--text-muted);">Stores Messages, Users,<br>& Chat Settings</p>
                     </div>
 
                     <div class="d-line-h"></div>
                     
                     <div style="display: flex; flex-direction: column; align-items: center;">
-                        <div class="d-box">🤖 Webhook Dispatcher</div>
+                        <div class="d-box">📡 Webhook / Polling Dispatcher</div>
                         <div class="d-arrow-down" style="height: 20px;"></div>
                         
                         <div class="d-row" style="gap: 20px;">
                             <div style="display: flex; flex-direction: column; align-items: center;">
-                                <div class="d-box" style="border-color: var(--primary); font-size: 13px; padding: 12px;">Internal System Bots<br>(@YukiFather, @Stickers)</div>
-                            </div>
-                            <div style="display: flex; flex-direction: column; align-items: center;">
-                                <div class="d-box external" style="font-size: 13px; padding: 12px;">Developer Servers<br>(Python, Node.js, PHP)</div>
+                                <div class="d-box external" style="font-size: 14px; padding: 16px;">
+                                    🐍 Your Python Script<br><code>bot.polling()</code>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <h2>How it works</h2>
-            <p><strong>1. Message Dispatching:</strong> When a user sends a message to a chat, the Cloudflare Worker inserts the message into the D1 database. Instantly, it checks if any <code>is_bot</code> users are members of that chat.</p>
-            <p><strong>2. The Background Execution:</strong> If bots are present, the Worker uses <code>ctx.waitUntil()</code> to fire HTTP POST requests (Webhooks) to the bot developers in the background. This ensures the human user's app never lags while waiting for a bot to respond.</p>
-            <p><strong>3. System Bots:</strong> Bots like <code>@YukiFather</code> (for bot creation) and <code>@Stickers</code> (for sticker packs) do not require an external server. Their logic is hardcoded directly inside the Cloudflare Worker, meaning they respond with zero latency.</p>
-            <p><strong>4. Developer Bot Responses:</strong> When your Python or Node.js server receives a Webhook, it processes the text and sends an HTTP POST request back to <code>/bot&lt;token&gt;/sendMessage</code>. The Worker verifies your token, writes the response to the D1 database, and the clients sync the new message.</p>
+            <h2>How it works with Python</h2>
+            <p><strong>1. Receiving Updates:</strong> When using <code>bot.polling()</code>, your script constantly asks the Cloudflare Edge Worker if there are new messages. The Worker reads the D1 database efficiently using indexed cursors and returns updates.</p>
+            <p><strong>2. Routing via Decorators:</strong> The <code>yukibot</code> library intercepts these raw JSON updates, transforms them into object-oriented <code>Message</code> and <code>Update</code> structures (via <code>DotDict</code>), and routes them to your <code>@bot.message_handler()</code> functions.</p>
+            <p><strong>3. Smart D1 Caching:</strong> Calling methods like <code>bot.getChat()</code> or <code>bot.getStickerSet()</code> triggers database reads. To save your Cloudflare D1 quotas, <code>yukibot</code> automatically caches read-only queries in memory (TTL 60-120s). Repeated calls for the same chat info won't cost network overhead!</p>
         </div>
 
         <!-- ==================== FAQ PAGE ==================== -->
         <div class="page-section" id="page-faq">
-            <h1>Frequently Asked Questions</h1>
-            <p>Everything you need to know about building, managing, and interacting with YukiChat bots.</p>
+            <h1>Usage & FAQ</h1>
+            <p>Everything you need to know about building bots in Python using the <code>yukibot</code> library.</p>
             
             <div style="margin-top: 32px;">
                 <div class="faq-card">
-                    <h3>How do I create a bot?</h3>
-                    <p>Open YukiChat, search for <strong>@YukiFather</strong>, and send the <code>/start</code> command. Then, send <code>/newbot &lt;your_bot_name&gt;</code>. Note that your bot's username <strong>must</strong> end in "bot" (e.g., SupportBot, weather_bot). YukiFather will reply with your unique Bot Token.</p>
+                    <h3>How do I create a bot token?</h3>
+                    <p>Open YukiChat, search for <strong>@YukiFather</strong>, and send the <code>/start</code> command. Then, send <code>/newbot &lt;your_bot_name&gt;</code>. Note that your bot's username <strong>must</strong> end in "bot" (e.g., WeatherBot). YukiFather will reply with your token which you pass into <code>YukiBot("TOKEN")</code>.</p>
                 </div>
 
                 <div class="faq-card">
-                    <h3>Do I need my own server to run a bot?</h3>
-                    <p>Yes. YukiChat provides the API, but you need to write the code that dictates what your bot says and does. You can host your bot code on a VPS, Heroku, Vercel, or even another Cloudflare Worker. You can receive messages either via Webhooks (recommended) or by polling <code>getUpdates</code>.</p>
+                    <h3>How do message handlers work?</h3>
+                    <p>The library provides a <code>@bot.message_handler</code> decorator. You can filter by commands, functions, or content types. Example: <code>@bot.message_handler(commands=['help'], content_type='text')</code> will only trigger if the user sends "/help" as a text message.</p>
                 </div>
 
                 <div class="faq-card">
-                    <h3>What are System Bots?</h3>
-                    <p>System Bots (like <code>@YukiFather</code> and <code>@Stickers</code>) are official bots built directly into the YukiChat core infrastructure. They don't have external servers; their logic runs directly on the edge. Because of this, they do not require the "bot" suffix in their names and they have the Verified blue tick by default.</p>
+                    <h3>What is <code>DotDict</code> in the library?</h3>
+                    <p>Unlike raw dictionaries where you have to type <code>message['chat']['id']</code>, <code>yukibot</code> converts JSON into <code>DotDict</code> objects. This allows you to write beautiful, object-oriented code like <code>message.chat.id</code> and <code>message.sender.username</code>.</p>
                 </div>
 
                 <div class="faq-card">
-                    <h3>How do I create a Custom Sticker Pack?</h3>
-                    <p>Search for <strong>@Stickers</strong> in YukiChat. Send <code>/newpack &lt;shortname&gt; &lt;Title&gt;</code>. Once created, send an image to the bot with the caption <code>/add &lt;shortname&gt; 👽</code> (replacing the alien with your desired emoji). Your sticker pack is now immediately available via the API and the YukiChat UI!</p>
+                    <h3>Polling vs. Webhooks</h3>
+                    <p>The library natively supports <code>bot.polling()</code> which is great for development or running on standard VPS containers. If you wish to use serverless environments (like AWS Lambda or Vercel), you can use <code>bot.setWebhook("url")</code> and pass incoming JSON directly to <code>bot.process_new_updates([update_json])</code>.</p>
                 </div>
 
                 <div class="faq-card">
                     <h3>How do Inline Keyboards work?</h3>
-                    <p>When calling a method like <code>sendMessage</code>, you can pass a JSON object to the <code>reply_markup</code> parameter. It should contain an array of arrays representing rows of buttons. When a user clicks a button, a <code>CallbackQuery</code> event is dispatched to your bot's Webhook containing the <code>callback_data</code> you assigned to that button.</p>
-                </div>
-
-                <div class="faq-card">
-                    <h3>Can bots read all messages in a group?</h3>
-                    <p>By default, yes. If a bot is added to a group or channel, the Webhook dispatcher will send every message to the bot's server. Ensure your bot's server drops updates it doesn't need to save processing power.</p>
+                    <p>You can pass a dictionary to the <code>reply_markup</code> parameter of any sending method. It should contain an <code>inline_keyboard</code> array. Example:<br>
+                    <code>markup = {"inline_keyboard": [[{"text": "Click Me", "callback_data": "btn1"}]]}</code><br>
+                    <code>bot.sendMessage(chat_id, "Choose:", reply_markup=markup)</code>
+                    </p>
                 </div>
             </div>
         </div>
@@ -223,78 +249,81 @@
     </div>
 
     <script>
-        // Full API Specification
+        // Full API Specification mapping Python yukibot methods
         const apiData =[
+            {
+                category: "Library Helpers",
+                methods:[
+                    { name: "polling", desc: "Starts an infinite loop to fetch messages continuously without crashing.", params:[ { name: "interval", type: "int", req: false, desc: "Seconds to sleep between requests. Default is 2." } ] },
+                    { name: "message_handler", desc: "Decorator to route incoming messages to specific functions.", params:[ { name: "commands", type: "list[str]", req: false, desc: "List of commands to trigger on (e.g.['start', 'help'])." }, { name: "func", type: "callable", req: false, desc: "A lambda/function evaluating to True/False." }, { name: "content_type", type: "str", req: false, desc: "Filters by message type. Default: 'text'." } ] },
+                    { name: "reply_to", desc: "Convenience method to reply directly to a Message object.", params:[ { name: "message", type: "Message", req: true, desc: "The original Message object." }, { name: "text", type: "str", req: true, desc: "Text to reply with." }, { name: "reply_markup", type: "dict", req: false, desc: "Inline keyboard." } ] }
+                ]
+            },
             {
                 category: "Messaging",
                 methods:[
-                    { name: "sendMessage", desc: "Use this method to send text messages. Returns the sent Message ID.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Unique identifier for the target chat." }, { name: "text", type: "String", req: true, desc: "Text of the message to be sent." }, { name: "reply_to_message_id", type: "Integer", req: false, desc: "If the message is a reply, ID of the original message." }, { name: "reply_markup", type: "Object", req: false, desc: "JSON object for an inline keyboard or custom reply keyboard." } ] },
-                    { name: "sendPhoto", desc: "Use this method to send photos.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Unique identifier for the target chat." }, { name: "photo", type: "String", req: true, desc: "Photo URL or Base64 string." }, { name: "caption", type: "String", req: false, desc: "Photo caption." }, { name: "reply_markup", type: "Object", req: false, desc: "Inline keyboard object." } ] },
-                    { name: "sendVideo", desc: "Use this method to send video files.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Unique identifier for the target chat." }, { name: "video", type: "String", req: true, desc: "Video file URL or Base64 data." }, { name: "caption", type: "String", req: false, desc: "Video caption." } ] },
-                    { name: "sendDocument", desc: "Use this method to send general files.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Unique identifier for the target chat." }, { name: "document", type: "String", req: true, desc: "Document file URL or Base64 data." }, { name: "caption", type: "String", req: false, desc: "Document caption." } ] },
-                    { name: "sendMediaGroup", desc: "Use this method to send a group of photos/videos as an album.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Unique identifier for the target chat." }, { name: "media", type: "Array of Objects", req: true, desc: "Array describing the media files. E.g. [{type:'photo', media:'url', caption:'hi'}]" } ] },
-                    { name: "forwardMessage", desc: "Use this method to forward messages of any kind.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "from_chat_id", type: "Integer | String", req: true, desc: "Chat ID where the original message was sent." }, { name: "message_id", type: "Integer", req: true, desc: "Message identifier in the chat specified in from_chat_id." } ] }
+                    { name: "sendMessage", desc: "Sends a text message.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "text", type: "str", req: true, desc: "Message text." }, { name: "reply_to_message_id", type: "int", req: false, desc: "ID of message to reply to." }, { name: "reply_markup", type: "dict", req: false, desc: "Inline keyboard markup." } ] },
+                    { name: "sendPhoto", desc: "Sends a photo.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "photo", type: "str", req: true, desc: "Photo URL or Base64 string." }, { name: "caption", type: "str", req: false, desc: "Photo caption." }, { name: "reply_to_message_id", type: "int", req: false, desc: "ID to reply to." }, { name: "reply_markup", type: "dict", req: false, desc: "Inline keyboard." } ] },
+                    { name: "sendVideo", desc: "Sends a video.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "video", type: "str", req: true, desc: "Video URL or Base64 data." }, { name: "caption", type: "str", req: false, desc: "Video caption." }, { name: "reply_to_message_id", type: "int", req: false, desc: "ID to reply to." }, { name: "reply_markup", type: "dict", req: false, desc: "Inline keyboard." } ] },
+                    { name: "sendDocument", desc: "Sends a general document.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "document", type: "str", req: true, desc: "Document URL or Base64 data." }, { name: "caption", type: "str", req: false, desc: "Document caption." }, { name: "reply_to_message_id", type: "int", req: false, desc: "ID to reply to." }, { name: "reply_markup", type: "dict", req: false, desc: "Inline keyboard." } ] },
+                    { name: "sendSticker", desc: "Sends a sticker from a set.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "sticker", type: "str", req: true, desc: "Sticker file URL/Base64." }, { name: "reply_to_message_id", type: "int", req: false, desc: "ID to reply to." }, { name: "reply_markup", type: "dict", req: false, desc: "Inline keyboard." } ] },
+                    { name: "sendMediaGroup", desc: "Sends a group of photos/videos as an album.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "media", type: "list[dict]", req: true, desc: "List describing the media files. E.g. [{'type':'photo', 'media':'url', 'caption':'hi'}]" } ] },
+                    { name: "forwardMessage", desc: "Forwards a message.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "from_chat_id", type: "int | str", req: true, desc: "Chat ID of original message." }, { name: "message_id", type: "int", req: true, desc: "Message ID to forward." } ] }
                 ]
             },
             {
-                category: "Updating Messages",
+                category: "Message Updating",
                 methods:[
-                    { name: "editMessageText", desc: "Use this method to edit text messages sent by the bot.", params:[ { name: "message_id", type: "Integer", req: true, desc: "Identifier of the message to edit." }, { name: "text", type: "String", req: true, desc: "New text of the message." }, { name: "reply_markup", type: "Object", req: false, desc: "New inline keyboard." } ] },
-                    { name: "editMessageReplyMarkup", desc: "Use this method to edit only the reply markup of messages.", params:[ { name: "message_id", type: "Integer", req: true, desc: "Identifier of the message." }, { name: "reply_markup", type: "Object", req: true, desc: "New inline keyboard." } ] },
-                    { name: "deleteMessage", desc: "Use this method to delete a message.", params:[ { name: "message_id", type: "Integer", req: true, desc: "Identifier of the message to delete." } ] }
+                    { name: "editMessageText", desc: "Edits text messages sent by the bot.", params:[ { name: "message_id", type: "int", req: true, desc: "ID of the message to edit." }, { name: "text", type: "str", req: true, desc: "New text." }, { name: "reply_markup", type: "dict", req: false, desc: "New inline keyboard." } ] },
+                    { name: "editMessageReplyMarkup", desc: "Edits only the reply markup of a message.", params:[ { name: "message_id", type: "int", req: true, desc: "ID of the message." }, { name: "reply_markup", type: "dict", req: true, desc: "New inline keyboard." } ] },
+                    { name: "deleteMessage", desc: "Deletes a message.", params:[ { name: "message_id", type: "int", req: true, desc: "ID of the message to delete." } ] },
+                    { name: "sendChatAction", desc: "Broadcasts a typing status in a chat.", params:[ { name: "action", type: "str", req: true, desc: "Action type (e.g. 'typing')." } ] },
+                    { name: "pinChatMessage", desc: "Pins a message in a chat.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "message_id", type: "int", req: true, desc: "ID of message to pin." } ] },
+                    { name: "unpinChatMessage", desc: "Unpins a message.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "message_id", type: "int", req: true, desc: "ID of message to unpin." } ] }
                 ]
             },
             {
-                category: "Chat Actions & Settings",
+                category: "Chat Management",
                 methods:[
-                    { name: "sendChatAction", desc: "Use this method to broadcast typing status.", params:[ { name: "action", type: "String", req: true, desc: "Type of action (e.g., 'typing', 'upload_photo')." } ] },
-                    { name: "pinChatMessage", desc: "Use this method to pin a message in a chat.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "message_id", type: "Integer", req: true, desc: "Identifier of a message to pin." } ] },
-                    { name: "unpinChatMessage", desc: "Use this method to unpin a message.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "message_id", type: "Integer", req: true, desc: "Identifier of a message to unpin." } ] },
-                    { name: "setMessageReaction", desc: "Use this method to add a reaction to a message.", params:[ { name: "message_id", type: "Integer", req: true, desc: "Identifier of the message." }, { name: "reaction", type: "String", req: true, desc: "Emoji string (e.g. '👍')." } ] }
-                ]
-            },
-            {
-                category: "Group / Channel Management",
-                methods:[
-                    { name: "getChat", desc: "Use this method to get chat info.", params:[{ name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }] },
-                    { name: "getChatMembersCount", desc: "Use this method to get member count.", params:[{ name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }] },
-                    { name: "getChatMember", desc: "Use this method to get info about a member.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "user_id", type: "Integer", req: true, desc: "Target user ID." } ] },
-                    { name: "banChatMember", desc: "Use this method to kick a user.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "user_id", type: "Integer", req: true, desc: "Target user ID." } ] },
-                    { name: "promoteChatMember", desc: "Use this method to promote a user.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "user_id", type: "Integer", req: true, desc: "Target user ID." }, { name: "can_manage_chat", type: "Boolean", req: true, desc: "True to make Admin." } ] },
-                    { name: "restrictChatMember", desc: "Use this method to restrict a user.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "user_id", type: "Integer", req: true, desc: "Target user ID." }, { name: "permissions", type: "Object", req: true, desc: "e.g., {can_send_messages: false}" } ] },
-                    { name: "setChatTitle", desc: "Use this method to change chat title.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "title", type: "String", req: true, desc: "New title." } ] },
-                    { name: "setChatDescription", desc: "Use this method to change chat description.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "description", type: "String", req: true, desc: "New description." } ] },
-                    { name: "setChatPhoto", desc: "Use this method to set chat photo.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "photo_url", type: "String", req: true, desc: "URL/Base64 of photo." } ] },
-                    { name: "exportChatInviteLink", desc: "Use this method to generate an invite link.", params:[{ name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }] },
-                    { name: "leaveChat", desc: "Use this method for bot to leave a chat.", params:[{ name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }] }
+                    { name: "getChat", desc: "Gets chat info. Uses internal smart cache (60s).", params:[{ name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }] },
+                    { name: "getChatMembersCount", desc: "Gets member count. Uses internal smart cache (60s).", params:[{ name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }] },
+                    { name: "getChatMember", desc: "Gets info about a specific member. Uses internal smart cache (60s).", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "user_id", type: "int", req: true, desc: "Target user ID." } ] },
+                    { name: "banChatMember", desc: "Kicks/Bans a user from the chat.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "user_id", type: "int", req: true, desc: "Target user ID." } ] },
+                    { name: "promoteChatMember", desc: "Promotes a user to Admin.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "user_id", type: "int", req: true, desc: "Target user ID." }, { name: "can_manage_chat", type: "bool", req: false, desc: "Default True." } ] },
+                    { name: "restrictChatMember", desc: "Restricts/Mutes a user.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "user_id", type: "int", req: true, desc: "Target user ID." }, { name: "can_send_messages", type: "bool", req: false, desc: "Default False." } ] },
+                    { name: "setChatTitle", desc: "Changes chat title.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "title", type: "str", req: true, desc: "New title." } ] },
+                    { name: "setChatDescription", desc: "Changes chat description.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "description", type: "str", req: true, desc: "New description." } ] },
+                    { name: "setChatPhoto", desc: "Sets chat photo.", params:[ { name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }, { name: "photo_url", type: "str", req: true, desc: "URL/Base64 of photo." } ] },
+                    { name: "exportChatInviteLink", desc: "Generates an invite hash link for private chats.", params:[{ name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }] },
+                    { name: "leaveChat", desc: "Makes the bot leave the chat.", params:[{ name: "chat_id", type: "int | str", req: true, desc: "Target chat ID." }] }
                 ]
             },
             {
                 category: "Stickers",
                 methods:[
-                    { name: "sendSticker", desc: "Use this method to send stickers.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "sticker", type: "String", req: true, desc: "Sticker file URL/Base64." } ] },
-                    { name: "createNewStickerSet", desc: "Use this method to create a sticker set.", params:[ { name: "name", type: "String", req: true, desc: "Short name (unique)." }, { name: "title", type: "String", req: true, desc: "Sticker set title." }, { name: "emojis", type: "String", req: true, desc: "Associated emojis." }, { name: "png_sticker", type: "String", req: true, desc: "URL/Base64 of PNG." } ] },
-                    { name: "addStickerToSet", desc: "Use this method to add a sticker to a set.", params:[ { name: "name", type: "String", req: true, desc: "Sticker set name." }, { name: "emojis", type: "String", req: true, desc: "Associated emojis." }, { name: "png_sticker", type: "String", req: true, desc: "URL/Base64 of PNG." } ] },
-                    { name: "deleteStickerFromSet", desc: "Use this method to delete a sticker.", params:[ { name: "sticker", type: "String", req: true, desc: "URL of the sticker." } ] },
-                    { name: "setStickerSetThumbnail", desc: "Use this method to set the thumbnail of a set.", params:[ { name: "name", type: "String", req: true, desc: "Sticker set name." }, { name: "thumbnail", type: "String", req: true, desc: "URL/Base64 of thumbnail." } ] },
-                    { name: "getStickerSet", desc: "Use this method to get a sticker set.", params:[ { name: "name", type: "String", req: true, desc: "Name of the set." } ] }
+                    { name: "createNewStickerSet", desc: "Creates a new sticker set.", params:[ { name: "name", type: "str", req: true, desc: "Short name (unique)." }, { name: "title", type: "str", req: true, desc: "Display title." }, { name: "png_sticker", type: "str", req: true, desc: "URL/Base64 of PNG." }, { name: "emojis", type: "str", req: true, desc: "Associated emojis." } ] },
+                    { name: "addStickerToSet", desc: "Adds a sticker to an existing set.", params:[ { name: "name", type: "str", req: true, desc: "Sticker set name." }, { name: "png_sticker", type: "str", req: true, desc: "URL/Base64 of PNG." }, { name: "emojis", type: "str", req: true, desc: "Associated emojis." } ] },
+                    { name: "deleteStickerFromSet", desc: "Deletes a sticker.", params:[ { name: "sticker", type: "str", req: true, desc: "URL/ID of the sticker." } ] },
+                    { name: "setStickerSetThumbnail", desc: "Sets thumbnail of a sticker pack.", params:[ { name: "name", type: "str", req: true, desc: "Sticker set name." }, { name: "thumbnail", type: "str", req: true, desc: "URL/Base64 of thumbnail." } ] },
+                    { name: "getStickerSet", desc: "Gets sticker set data. Uses internal smart cache (120s).", params:[ { name: "name", type: "str", req: true, desc: "Name of the set." } ] }
                 ]
             },
             {
-                category: "Webhooks & Events",
+                category: "Webhooks",
                 methods:[
-                    { name: "setWebhook", desc: "Use this method to specify a webhook URL.", params:[ { name: "url", type: "String", req: true, desc: "HTTPS url to send updates to." } ] },
-                    { name: "deleteWebhook", desc: "Use this method to remove webhook integration.", params:[] },
-                    { name: "getWebhookInfo", desc: "Use this method to get current webhook status.", params:[] },
-                    { name: "getUpdates", desc: "Use this method to receive incoming updates using long polling.", params:[ { name: "offset", type: "Integer", req: false, desc: "Identifier of the first update to be returned." } ] },
-                    { name: "answerCallbackQuery", desc: "Use this method to send answers to callback queries.", params:[ { name: "callback_query_id", type: "String", req: true, desc: "Unique identifier for the query." } ] }
+                    { name: "setWebhook", desc: "Specifies a webhook URL to receive updates instead of polling.", params:[ { name: "url", type: "str", req: true, desc: "HTTPS url to send updates to." } ] },
+                    { name: "deleteWebhook", desc: "Removes webhook integration, switching back to polling.", params:[] },
+                    { name: "getWebhookInfo", desc: "Gets current webhook status.", params:[] },
+                    { name: "getUpdates", desc: "Used internally by polling() to fetch new messages.", params:[ { name: "offset", type: "int", req: false, desc: "Identifier of the first update to be returned. Default 0." } ] },
+                    { name: "answerCallbackQuery", desc: "Silently acknowledges callback queries from inline buttons.", params:[ { name: "callback_query_id", type: "str", req: true, desc: "Unique identifier for the query." } ] }
                 ]
             },
             {
                 category: "Advanced Features",
                 methods:[
-                    { name: "setMyCommands", desc: "Use this method to change the bot's commands list.", params:[ { name: "commands", type: "Array of Objects", req: true, desc: "E.g. [{command: 'start', description: 'hi'}]." }, { name: "scope", type: "Object", req: false, desc: "Scope object." } ] },
-                    { name: "sendSystemNotification", desc: "Force trigger a Push Notification.", params:[ { name: "chat_id", type: "Integer | String", req: true, desc: "Target chat ID." }, { name: "text", type: "String", req: true, desc: "Notification content." } ] }
+                    { name: "setMyCommands", desc: "Changes the bot's commands list in the UI menu.", params:[ { name: "commands", type: "list[dict]", req: true, desc: "E.g. [{'command': 'start', 'description': 'hi'}]." }, { name: "scope", type: "dict", req: false, desc: "Scope object." } ] },
+                    { name: "setMessageReaction", desc: "Adds an emoji reaction to a message.", params:[ { name: "message_id", type: "int", req: true, desc: "ID of the message." }, { name: "reaction", type: "str", req: true, desc: "Emoji string (e.g. '👍')." } ] },
+                    { name: "sendSystemNotification", desc: "Force triggers an internal push notification to user devices.", params:[ { name: "text", type: "str", req: true, desc: "Notification content." } ] }
                 ]
             }
         ];
@@ -318,7 +347,7 @@
                     method.params.forEach(p => {
                         paramsHtml += `<tr>
                             <td><code>${p.name}</code></td>
-                            <td>${p.type}</td>
+                            <td><span style="color: var(--code-keyword); font-family: 'Fira Code', monospace; font-size: 13px;">${p.type}</span></td>
                             <td><span class="${p.req ? 'req-yes' : 'req-no'}">${p.req ? 'Yes' : 'Optional'}</span></td>
                             <td>${p.desc}</td>
                         </tr>`;
@@ -328,9 +357,15 @@
                     paramsHtml = `<p><em>This method takes no parameters.</em></p>`;
                 }
 
+                // Create method signature for display
+                let sigParams = method.params.map(p => `${p.name}${!p.req ? '=None' : ''}`).join(', ');
+                let displaySig = `bot.${method.name}(${sigParams})`;
+                if (method.name === 'message_handler') displaySig = `@bot.message_handler(${sigParams})`;
+
                 docsHtml += `
                     <div class="method-card" id="${method.name}">
-                        <h3>${method.name} <span class="badge">POST</span></h3>
+                        <h3>${method.name}</h3>
+                        <pre style="padding: 12px; margin-bottom: 16px; font-size: 13px;"><code>${displaySig}</code></pre>
                         <p>${method.desc}</p>
                         ${paramsHtml}
                     </div>
@@ -343,42 +378,38 @@
 
         // 2. SPA Page Switching Logic
         function switchPage(pageId) {
-            // Update Top Nav
             document.querySelectorAll('.top-nav-link').forEach(el => el.classList.remove('active'));
             document.getElementById('nav-' + pageId + '-btn').classList.add('active');
 
-            // Hide all pages, show target page
             document.querySelectorAll('.page-section').forEach(el => el.classList.remove('active'));
             document.getElementById('page-' + pageId).classList.add('active');
 
-            // Show API Sub-menu ONLY if API page is active
             if (pageId === 'api') {
                 document.getElementById('api-sidebar-links').classList.add('active');
             } else {
                 document.getElementById('api-sidebar-links').classList.remove('active');
             }
 
-            // Scroll to top
             window.scrollTo(0,0);
             closeSidebarMobile();
         }
 
         function closeSidebarMobile() {
-            if (window.innerWidth <= 800) {
+            if (window.innerWidth <= 900) {
                 document.getElementById('sidebar').classList.remove('open');
             }
         }
 
-        // 3. Simple Hash Router (allows direct links to pages)
+        // 3. Simple Hash Router
         window.onload = () => {
             const hash = window.location.hash.replace('#', '');
             if (hash === 'scheme') switchPage('scheme');
             else if (hash === 'faq') switchPage('faq');
             else if (hash && document.getElementById(hash)) {
-                switchPage('api'); // Switch to API page
-                setTimeout(() => document.getElementById(hash).scrollIntoView(), 100); // Scroll to method
+                switchPage('api'); 
+                setTimeout(() => document.getElementById(hash).scrollIntoView(), 100);
             } else {
-                switchPage('api'); // Default
+                switchPage('api'); 
             }
         };
     </script>
